@@ -12,17 +12,15 @@ export class GetInventoryComponent implements OnInit {
   inventory: Array<Inventory> = [];
 
   ngOnInit(): void {
-    this.getInventoryList();
-  }
-
-  getInventoryList(): void {
     this.inventoryService.getInventry().subscribe(
-        (inventory) => {
-            console.log('Inventory received:', inventory); // Logs the response
-          },
-          (error) => {
-            console.error('Error fetching inventory:', error); // Logs any errors
-          }
+      (items) => {
+        this.inventory = items;
+        console.log('Inventory:', this.inventory); // Debugging output
+      },
+      (error) => {
+        console.error('Error fetching inventory:', error);
+      }
     );
   }
+  
 }
