@@ -1,71 +1,108 @@
-<div class="container mx-auto p-4">
-    <h2 class="text-2xl font-bold mb-4">Add Product</h2>
-    @if (productCreated) {
-      <h4 class="text-green-500">Product Created Successfully</h4>
-    }
-    <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <label class="block text-gray-700" for="skuCode">SKU Code</label>
-        <input
-          type="text"
-          id="skuCode"
-          formControlName="skuCode"
-          class="border rounded w-full py-2 px-3 text-gray-700"
-        />
-        <div *ngIf="skuCode?.invalid && (skuCode?.dirty || skuCode?.touched)" class="text-red-500">
-          <div *ngIf="skuCode?.errors?.['required']">SKU Code is required.</div>
-          <div *ngIf="skuCode?.errors?.['minlength']">SKU Code must be at least 3 characters long.</div>
-        </div>
-      </div>
-  
-      <div class="mb-4">
-        <label class="block text-gray-700" for="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          formControlName="name"
-          class="border rounded w-full py-2 px-3 text-gray-700"
-        />
-        <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="text-red-500">
-          <div *ngIf="name?.errors?.['required']">Name is required.</div>
-          <div *ngIf="name?.errors?.['minlength']">Name must be at least 3 characters long.</div>
-        </div>
-      </div>
-  
-      <div class="mb-4">
-        <label class="block text-gray-700" for="description">Description</label>
-        <textarea
-          id="description"
-          formControlName="description"
-          class="border rounded w-full py-2 px-3 text-gray-700"
-        ></textarea>
-        <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="text-red-500">
-          <div *ngIf="description?.errors?.['required']">Description is required.</div>
-          <div *ngIf="description?.errors?.['minlength']">Description must be at least 10 characters long.</div>
-        </div>
-      </div>
-  
-      <div class="mb-4">
-        <label class="block text-gray-700" for="price">Price</label>
-        <input
-          type="number"
-          id="price"
-          formControlName="price"
-          class="border rounded w-full py-2 px-3 text-gray-700"
-        />
-        <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="text-red-500">
-          <div *ngIf="price?.errors?.['required']">Price is required.</div>
-          <div *ngIf="price?.errors?.['min']">Price must be greater than 0.</div>
-        </div>
-      </div>
-  
-      <button
-        type="submit"
-        class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        [disabled]="addProductForm.invalid"
+<div class="container mx-auto p-4 bg-gray-100 rounded-lg shadow-lg">
+  <h2 class="text-3xl font-bold text-center mb-6 text-blue-600">Add Product</h2>
+  @if (productCreated) {
+  <h4 class="text-green-500 font-semibold text-center mb-4">
+    Product Created Successfully
+  </h4>
+  }
+  <form [formGroup]="addProductForm" (ngSubmit)="onSubmit()">
+    <!-- SKU Code -->
+    <div class="mb-6">
+      <label class="block text-gray-800 font-medium mb-2" for="skuCode"
+        >SKU Code</label
       >
-        Add Product
-      </button>
-    </form>
-  </div>
-  
+      <input
+        type="text"
+        id="skuCode"
+        formControlName="skuCode"
+        class="border border-gray-300 rounded-lg w-full px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <div
+        *ngIf="skuCode?.invalid && (skuCode?.dirty || skuCode?.touched)"
+        class="text-red-500 text-sm mt-1"
+      >
+        <div *ngIf="skuCode?.errors?.['required']">SKU Code is required.</div>
+        <div *ngIf="skuCode?.errors?.['minlength']">
+          SKU Code must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div class="mb-6">
+      <label class="block text-gray-800 font-medium mb-2" for="name"
+        >Name</label
+      >
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="border border-gray-300 rounded-lg w-full px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <div
+        *ngIf="name?.invalid && (name?.dirty || name?.touched)"
+        class="text-red-500 text-sm mt-1"
+      >
+        <div *ngIf="name?.errors?.['required']">Name is required.</div>
+        <div *ngIf="name?.errors?.['minlength']">
+          Name must be at least 3 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-6">
+      <label class="block text-gray-800 font-medium mb-2" for="description"
+        >Description</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        class="border border-gray-300 rounded-lg w-full px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300 resize-none"
+        rows="4"
+      ></textarea>
+      <div
+        *ngIf="
+          description?.invalid && (description?.dirty || description?.touched)
+        "
+        class="text-red-500 text-sm mt-1"
+      >
+        <div *ngIf="description?.errors?.['required']">
+          Description is required.
+        </div>
+        <div *ngIf="description?.errors?.['minlength']">
+          Description must be at least 10 characters long.
+        </div>
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div class="mb-6">
+      <label class="block text-gray-800 font-medium mb-2" for="price"
+        >Price</label
+      >
+      <input
+        type="number"
+        id="price"
+        formControlName="price"
+        class="border border-gray-300 rounded-lg w-full px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
+      />
+      <div
+        *ngIf="price?.invalid && (price?.dirty || price?.touched)"
+        class="text-red-500 text-sm mt-1"
+      >
+        <div *ngIf="price?.errors?.['required']">Price is required.</div>
+        <div *ngIf="price?.errors?.['min']">Price must be greater than 0.</div>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-600 transition-colors w-full font-semibold"
+      [disabled]="addProductForm.invalid"
+    >
+      Add Product
+    </button>
+  </form>
+</div>
