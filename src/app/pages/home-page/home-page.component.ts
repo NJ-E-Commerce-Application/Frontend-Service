@@ -45,6 +45,10 @@ export class HomePageComponent implements OnInit {
     this.router.navigateByUrl('/add-product');
   }
 
+  goToGetInventoryPage() {
+    this.router.navigateByUrl('/get-inventry');
+  }
+
   orderProduct(product: Product, quantity: string) {
 
     this.oidcSecurityService.userData$.subscribe(result => {

@@ -11,8 +11,11 @@ export class InventryService {
   constructor(private httpClient: HttpClient) {}
 
   getInventry(): Observable<Array<Inventory>> {
-    return this.httpClient.get<Array<Inventory>>(
-      'http://localhost:9000/api/inventory'
+    const result = this.httpClient.get<Array<Inventory>>(
+      'http://localhost:9000/api/inventory/getAll'
     );
+    console.log('test')
+    console.log('getInventry', result);
+    return result;
   }
 }
