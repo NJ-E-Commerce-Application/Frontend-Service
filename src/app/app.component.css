@@ -1,0 +1,11 @@
+.app-background {
+    background-image: url('assets/background.jpg'); /* Path to your image */
+    background-size: cover; /* Ensure the image covers the whole screen */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent tiling */
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    position: fixed; /* Keep it fixed as a background */
+    z-index: -1; /* Place it behind all content */
+  }
+  
