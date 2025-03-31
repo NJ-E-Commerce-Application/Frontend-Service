@@ -1,21 +1,20 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {OidcSecurityService} from "angular-auth-oidc-client";
-import {Product} from "../../model/products";
-import {ProductService} from "../../services/product/product.service";
-import {AsyncPipe, JsonPipe} from "@angular/common";
-import {Router} from "@angular/router";
-import {Order} from "../../model/order";
-import {FormsModule} from "@angular/forms";
-import {OrderService} from "../../services/order/order.service";
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { Product } from '../../model/products';
+import { ProductService } from '../../services/product/product.service';
+import { AsyncPipe, JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { Order } from '../../model/order';
+import { FormsModule } from '@angular/forms';
+import { OrderService } from '../../services/order/order.service';
+import { MessagePromptComponent } from '../../shared/prompt/prompt.component';
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './home-page.component.html',
   standalone: true,
-  imports: [
-    FormsModule
-  ],
-  styleUrl: './home-page.component.css'
+  imports: [FormsModule, MessagePromptComponent],
+  styleUrl: './home-page.component.css',
 })
 export class HomePageComponent implements OnInit {
   private readonly oidcSecurityService = inject(OidcSecurityService);
@@ -28,17 +27,20 @@ export class HomePageComponent implements OnInit {
   orderSuccess = false;
   orderFailed = false;
 
+  @ViewChild(MessagePromptComponent)
+  messagePromptComponent!: MessagePromptComponent; // Reference to child component
   ngOnInit(): void {
     this.oidcSecurityService.isAuthenticated$.subscribe(
-      ({isAuthenticated}) => {
+      ({ isAuthenticated }) => {
         this.isAuthenticated = isAuthenticated;
-        this.productService.getProducts()
+        this.productService
+          .getProducts()
           .pipe()
-          .subscribe(product => {
+          .subscribe((product) => {
             this.products = product;
-          })
+          });
       }
-    )
+    );
   }
 
   goToCreateProductPage() {
@@ -50,15 +52,14 @@ export class HomePageComponent implements OnInit {
   }
 
   orderProduct(product: Product, quantity: string) {
-
-    this.oidcSecurityService.userData$.subscribe(result => {
+    this.oidcSecurityService.userData$.subscribe((result) => {
       const userDetails = {
         email: result.userData.email,
         firstName: result.userData.firstName,
-        lastName: result.userData.lastName
+        lastName: result.userData.lastName,
       };
 
-      if(!quantity) {
+      if (!quantity) {
         this.orderFailed = true;
         this.orderSuccess = false;
         this.quantityIsNull = true;
@@ -67,15 +68,26 @@ export class HomePageComponent implements OnInit {
           skuCode: product.skuCode,
           price: product.price,
           quantity: Number(quantity),
-          userDetails: userDetails
-        }
+          userDetails: userDetails,
+        };
 
-        this.orderService.orderProduct(order).subscribe(() => {
-          this.orderSuccess = true;
-        }, error => {
-          this.orderFailed = false;
-        })
+        this.orderService.orderProduct(order).subscribe(
+          () => {
+            this.orderSuccess = true;
+            this.messagePromptComponent.displayMessage(
+              'success',
+              'Order placed successfully!'
+            );
+          },
+          (error) => {
+            this.orderFailed = false;
+            this.messagePromptComponent.displayMessage(
+              'error',
+              'Failed to create the product.'
+            );
+          }
+        );
       }
-    })
+    });
   }
 }
