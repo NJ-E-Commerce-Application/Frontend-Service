@@ -1,0 +1,17 @@
+.fixed {
+  bottom: 4px;
+  right: 4px;
+  z-index: 1000; 
+}
+
+.bg-gray-800 {
+  background-color: #2d3748;
+}
+
+.text-green-500 {
+  color: #48bb78;
+}
+
+.text-red-500 {
+  color: #f56565;
+}
